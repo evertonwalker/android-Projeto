@@ -15,12 +15,12 @@ import java.util.List;
 public class AlunoDao extends SQLiteOpenHelper {
 
     public AlunoDao(Context context) {
-        super(context, "Agenda", null, 2);
+        super(context, "Agenda", null, 4);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE Alunos (id INTEGER PRIMARY KEY  AUTOINCREMENT NOT NULL, nome TEXT NOT NULL, endereco TEXT, telefone TEXT, site TEXT, nota REAL);";
+        String sql = "CREATE TABLE Alunos (id INTEGER PRIMARY KEY  AUTOINCREMENT NOT NULL, nome TEXT NOT NULL, endereco TEXT, telefone TEXT, site TEXT, nota REAL, caminhoFoto TEXT);";
         db.execSQL(sql);
     }
 
@@ -29,7 +29,6 @@ public class AlunoDao extends SQLiteOpenHelper {
         String sql = "DROP TABLE IF EXISTS Alunos";
         db.execSQL(sql);
         onCreate(db);
-
     }
 
     public void inserir(Aluno aluno) {
@@ -44,11 +43,14 @@ public class AlunoDao extends SQLiteOpenHelper {
     @NonNull
     private ContentValues getAlunosDados(Aluno aluno) {
         ContentValues dados = new ContentValues();
+
         dados.put("nome", aluno.getNome());
         dados.put("endereco", aluno.getEndereco());
         dados.put("telefone", aluno.getTelefone());
         dados.put("site", aluno.getSite());
         dados.put("nota", aluno.getNota());
+        dados.put("caminhoFoto", aluno.getCaminhoFoto());
+
         return dados;
     }
 
@@ -64,11 +66,13 @@ public class AlunoDao extends SQLiteOpenHelper {
 
             Aluno aluno = new Aluno();
 
+            aluno.setId(c.getInt(c.getColumnIndex("id")));
             aluno.setNome(c.getString(c.getColumnIndex("nome")));
             aluno.setEndereco(c.getString(c.getColumnIndex("endereco")));
             aluno.setTelefone(c.getString(c.getColumnIndex("telefone")));
             aluno.setSite(c.getString(c.getColumnIndex("site")));
             aluno.setNota(c.getDouble(c.getColumnIndex("nota")));
+            aluno.setCaminhoFoto(c.getString(c.getColumnIndex("caminhoFoto")));
 
             listaAlunos.add(aluno);
 
@@ -81,16 +85,18 @@ public class AlunoDao extends SQLiteOpenHelper {
     public void deleta(Aluno aluno){
 
         SQLiteDatabase  db = getWritableDatabase();
-         String [] params = {String.valueOf(aluno.getNome())};
-         db.delete("Alunos", "nome = ?", params);
+         String [] params = {String.valueOf(aluno.getId())};
+         db.delete("Alunos", "id = ?", params);
 
     }
 
     public void altera(Aluno aluno){
+
         SQLiteDatabase db = getWritableDatabase();
+
         ContentValues dados = getAlunosDados(aluno);
 
-        String[] params ={aluno.getId().toString()};
+        String[] params ={String.valueOf(aluno.getId().toString())};
 
         db.update("Alunos", dados, "id = ?", params);
     }
