@@ -4,19 +4,22 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.provider.Browser;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.unibratec.everton.agenda.com.unibratec.everton.agenda.AlunoConverter;
+import com.unibratec.everton.agenda.com.unibratec.everton.agenda.EnviarAlunosAsyncTask;
+import com.unibratec.everton.agenda.com.unibratec.everton.agenda.WebClient;
+import com.unibratec.everton.agenda.com.unibratec.everton.agenda.adapter.AlunosAdapter;
 import com.unibratec.everton.agenda.com.unibratec.everton.agenda.dao.AlunoDao;
 import com.unibratec.everton.agenda.com.unibratec.everton.agenda.model.Aluno;
 
@@ -26,12 +29,14 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
     private ListView alunosListView;
 
+    //Bloco de código responsável por pegar os alunos do DAO e monstar na tela através do alunosListviews
     private void carregarListaAlunos() {
 
         AlunoDao dao = new AlunoDao(this);
         List<Aluno> listaAlunos = dao.buscarAlunos();
+        dao.close();
 
-        ArrayAdapter adapter = new ArrayAdapter<Aluno>(this, android.R.layout.simple_list_item_1, listaAlunos);
+        AlunosAdapter adapter = new AlunosAdapter(this, listaAlunos);
         alunosListView.setAdapter(adapter);
 
     }
@@ -75,6 +80,22 @@ public class ListaAlunosActivity extends AppCompatActivity {
         super.onResume();
         carregarListaAlunos();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_list_alunos, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_enviar_notas:
+                new EnviarAlunosAsyncTask(this).execute();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     //os Contextos dos menus para realizar as determinadas operações
