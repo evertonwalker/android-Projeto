@@ -21,6 +21,10 @@
         </activity>
         <activity android:name=".FormularioAluno"></activity>
 
+        <activity android:name=".com.unibratec.everton.agenda.ProvasActivity" />
+        <activity android:name=".com.unibratec.everton.agenda.DetalhesProvaActivity" />
+        <activity android:name=".com.unibratec.everton.agenda.ProvasTableActivity" />
+
 
         <provider
             android:name="android.support.v4.content.FileProvider"

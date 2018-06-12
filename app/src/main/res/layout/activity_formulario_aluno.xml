@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
+    <include layout="@layout/toolbar"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -40,14 +40,14 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nome"
+            android:hint="@string/name"
             android:id="@+id/aluno_nome"
             />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Endereço"
+            android:hint="@string/address"
             android:id="@+id/aluno_endereco"
             />
 
@@ -55,7 +55,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Telefone"
+            android:hint="@string/phone"
             android:id="@+id/aluno_telefone"
             />
 
@@ -63,7 +63,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Site"
+            android:hint="@string/site"
             android:id="@+id/aluno_site"
             />
 

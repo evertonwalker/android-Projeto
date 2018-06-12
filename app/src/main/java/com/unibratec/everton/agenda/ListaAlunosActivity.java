@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import com.unibratec.everton.agenda.com.unibratec.everton.agenda.AlunoConverter;
 import com.unibratec.everton.agenda.com.unibratec.everton.agenda.EnviarAlunosAsyncTask;
+import com.unibratec.everton.agenda.com.unibratec.everton.agenda.ProvasActivity;
 import com.unibratec.everton.agenda.com.unibratec.everton.agenda.WebClient;
 import com.unibratec.everton.agenda.com.unibratec.everton.agenda.adapter.AlunosAdapter;
 import com.unibratec.everton.agenda.com.unibratec.everton.agenda.dao.AlunoDao;
@@ -45,6 +48,13 @@ public class ListaAlunosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_alunos);
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //toolbar.setNavigationIcon(R.mipmap.ic_launcher);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         alunosListView = (ListView) findViewById(R.id.lista_alunos);
 
@@ -84,7 +94,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_list_alunos, menu);
+        getMenuInflater().inflate(R.menu.menu_lista_alunos, menu);
         return true;
     }
 
@@ -93,6 +103,10 @@ public class ListaAlunosActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_enviar_notas:
                 new EnviarAlunosAsyncTask(this).execute();
+                break;
+            case R.id.menu_baixar_provas:
+                Intent vaiParaProvas = new Intent(this, ProvasActivity.class);
+                startActivity(vaiParaProvas);
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Schedule of Students 2.0</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="save">Save</string>
+    <string name="information">Information</string>
+    <string name="site">Site</string>
+    <string name="address">Address</string>
+</resources>
